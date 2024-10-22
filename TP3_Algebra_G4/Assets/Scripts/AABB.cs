@@ -7,8 +7,20 @@ public class AABB : MonoBehaviour
     [SerializeField] GameObject figure_test;
     [SerializeField] Vector3[] vertices_test;
 
+    Vector3[] vertices;
+    Vector3 worldVertex;
+    Mesh mesh;
     private Vector3 minPoint;
     private Vector3 maxPoint;
+
+    private void Awake()
+    {
+        // Obtener el mesh del objeto
+        Mesh mesh = GetComponentInChildren<MeshFilter>().mesh;
+        vertices = mesh.vertices;
+        // Transformar el primer vertice a coordenadas globales
+        worldVertex = transform.TransformPoint(vertices[0]);
+    }
 
     void Update()
     {
@@ -17,14 +29,7 @@ public class AABB : MonoBehaviour
 
     void CalculateAABB()
     {
-        // Obtener el mesh del objeto
-        Mesh mesh = GetComponentInChildren<MeshFilter>().mesh;
-        Vector3[] vertices = mesh.vertices;
-
         vertices_test = vertices;
-
-        // Transformar el primer vertice a coordenadas globales
-        Vector3 worldVertex = transform.TransformPoint(vertices[0]);
 
         // Inicializar minPoint y maxPoint con el primer vertice transformado
         minPoint = worldVertex;
@@ -45,7 +50,7 @@ public class AABB : MonoBehaviour
     // Dibujar usando Gizmos
     void OnDrawGizmos()
     {
-        // Calcular la AABB si no está calculada
+        // Calcular la AABB si no esta calculada
         if (minPoint == Vector3.zero && maxPoint == Vector3.zero)
         {
             CalculateAABB();
