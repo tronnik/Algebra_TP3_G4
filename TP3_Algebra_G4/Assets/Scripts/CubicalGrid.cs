@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
 using Unity.VisualScripting.FullSerializer;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -12,85 +14,132 @@ public class CubicalGrid : MonoBehaviour
     float z;
     float generalMagnitude;
 
-    Vector3 start;
+    float radius;
 
-    int baseRects;
-    int rectExtension;
+    Vector3 location;
 
-    int downLines;
-    int rightLines;
+    int rows;
+    int height;
     int max;
+    int rowsStart;
+
+    float moveY;
+
+    int horPoints;
+    int verPoints;
 
     float space;
+    int currentSphere;
 
-    Rect[] grid;
-    //Rect e;
+    Vector3[] grid;
 
     private void Awake()
     {
-        baseRects = 25;
-        rectExtension = baseRects / 2;
+        horPoints = 20;
+        verPoints = 20;
 
-        downLines = baseRects * rectExtension;
-        rightLines = baseRects * rectExtension;
+        rows = (horPoints * verPoints) + verPoints;
 
-        max = downLines + rightLines;
+        height = verPoints;
 
-        grid = new Rect[max];
+        max = rows * height;
 
-        start = new Vector3(0, 0, 0);
+        grid = new Vector3[max];
 
         generalMagnitude = 50.0f;
 
         space = 0.5f;
 
-        start.x += space;
-        for (int j = 0; j < downLines; j++)
+        moveY = 0.0f;
+
+        rowsStart = 0;
+
+        for (int i = 0; i < height; i++)
         {
-            if (j % rectExtension == 0)
+
+            location = new(0, moveY, 0);
+            //first series of horizontal points
+            for (int j = rowsStart; j < rowsStart + horPoints; j++)
             {
-                start.y += space;
-                start.z = 0;
+                grid[j] = location;
+
+                location.x += space;
+
             }
 
-            start.z += space;
-
-            Rect aux = new(start, Vector3.down, generalMagnitude);
-
-
-            grid[j] = aux;
-
-        }
-
-
-        start = Vector3.zero;
-
-        for (int j = downLines; j < max; j++)
-        {
-            if (j % rectExtension == 0)
+            location = new(0, moveY, 0);
+            //first series of vertical points
+            for (int j = rowsStart + horPoints; j < rowsStart + horPoints + verPoints; j++)
             {
-                start.z += space;
-                start.x = 0;
+                location.z += space;
+                grid[j] = location;
             }
 
-            start.x += space * 4;
+            location = new(0, moveY, 0);
+            location.x += space;
+            location.z += space;
 
-            Rect aux = new(start, Vector3.right, generalMagnitude);
+            currentSphere = 0;
+            //the rest of the points
+            for (int j = rowsStart + horPoints + verPoints; j < rowsStart + rows; j++)
+            {
+                if (currentSphere < horPoints)
+                    currentSphere++;
+                else
+                {
+                    currentSphere = 0;
+                    location.z += space;
+                    location.x = 0;
+                }
 
+                location.x += space;
 
-            grid[j] = aux;
+                grid[j] = location;
+            }
+
+            moveY += space;
+
+            rowsStart += rows;
         }
 
+        radius = 0.1f;
 
-        //e = new Rect(start, rotation, 100.0f);
+        //start.x += space;
+        //for (int j = 0; j < downLines; j++)
+        //{
+        //    if (j % rectExtension == 0)
+        //    {
+        //        start.y += space;
+        //        start.z = 0;
+        //    }
+
+        //    start.z += space;
+
+        //    Vector3 aux = start;
 
 
+        //    grid[j] = aux;
+
+        //}
+
+
+        //start = Vector3.zero;
+
+        //for (int j = downLines; j < max; j++)
+        //{
+        //    if (j % rectExtension == 0)
+        //    {
+        //        start.z += space;
+        //        start.x = 0;
+        //    }
+
+        //    start.x += space * 4;
+
+        //    Vector3 aux = start;
+
+        //    grid[j] = aux;
+        //}
     }
-
-    //public Grid()
-    //{
-
-    //}
 
     public void BuildCube()
     {
@@ -101,10 +150,11 @@ public class CubicalGrid : MonoBehaviour
     {
         Gizmos.color = Color.gray;
 
-        for (int i = 0; i < max; i++)
+        for (int j = 0; j < max; j++)
         {
-            Gizmos.DrawLine(grid[i].startPos, grid[i].finishPos);
+            Gizmos.DrawSphere(grid[j], radius);
         }
+        
     }
 
     private void OnDrawGizmos()
