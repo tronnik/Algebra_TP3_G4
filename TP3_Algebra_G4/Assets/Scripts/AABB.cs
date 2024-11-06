@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AABB : MonoBehaviour
-{ 
+{
     [SerializeField] GameObject figure_test;
     [SerializeField] Vector3[] vertices_test;
 
@@ -20,6 +20,7 @@ public class AABB : MonoBehaviour
         vertices = mesh.vertices;
         // Transformar el primer vertice a coordenadas globales
         worldVertex = transform.TransformPoint(vertices[0]);
+
     }
 
     void Update()
@@ -45,6 +46,8 @@ public class AABB : MonoBehaviour
             minPoint = Vector3.Min(minPoint, worldVertex);
             maxPoint = Vector3.Max(maxPoint, worldVertex);
         }
+
+
     }
 
     // Dibujar usando Gizmos
@@ -56,7 +59,7 @@ public class AABB : MonoBehaviour
             CalculateAABB();
         }
 
-        Gizmos.color = Color.cyan ;
+        Gizmos.color = Color.cyan;
 
         // Dibujar los bordes de la AABB usando las esquinas de la box
         Gizmos.DrawLine(new Vector3(minPoint.x, minPoint.y, minPoint.z), new Vector3(minPoint.x, maxPoint.y, minPoint.z));
