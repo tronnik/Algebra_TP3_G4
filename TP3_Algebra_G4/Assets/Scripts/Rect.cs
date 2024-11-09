@@ -24,9 +24,10 @@ public class Rect
     {
         UnityEngine.Vector3 finishPos;
 
-        finishPos.x = this.startPos.x + this.magnitude * Mathf.Cos(rotationAngles.y)/* * Mathf.Cos(rotationAngles.z)*/;
-        finishPos.y = this.startPos.y + this.magnitude * Mathf.Sin(rotationAngles.x)/* * Mathf.Cos(rotationAngles.y)*/;
-        finishPos.z = this.startPos.z; //+ this.magnitude * Mathf.Sin(rotationAngles.z);
+        //Coordenadas polares
+        finishPos.x = this.startPos.x + this.magnitude * Mathf.Cos(rotationAngles.y);
+        finishPos.y = this.startPos.y + this.magnitude * Mathf.Sin(rotationAngles.x);
+        finishPos.z = this.startPos.z; 
 
         return finishPos;
     }
