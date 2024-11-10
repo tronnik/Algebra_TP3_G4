@@ -1,2 +1,2 @@
 # Algebra_TP3_G4
-Sofía Álvarez, (Dueño) Valentín Villar,Tomás Luchelli
+Sofía Álvarez, Valentín Villar, (Dueño) Tomás Luchelli
