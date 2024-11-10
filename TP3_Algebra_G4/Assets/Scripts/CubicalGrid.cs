@@ -7,6 +7,7 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEditor.Animations;
 using UnityEngine;
 
+[ExecuteAlways]
 public class CubicalGrid : MonoBehaviour
 {
     float x;

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class CrossProduct : MonoBehaviour
 {
-    private Vector3 centro;
+    private Vector3 center;
     public List<(Vector3 start, Vector3 end)> normalLines = new List<(Vector3, Vector3)>();
 
     void Start()
@@ -13,7 +14,7 @@ public class CrossProduct : MonoBehaviour
         int[] triangles = mesh.triangles;
 
         // Obtener el centro del modelo en coordenadas globales
-        centro = GetComponentInChildren<MeshRenderer>().bounds.center;
+        center = GetComponentInChildren<MeshRenderer>().bounds.center;
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
@@ -32,7 +33,7 @@ public class CrossProduct : MonoBehaviour
             Vector3 normal = myCrossProduct(vertex2 - vertex1, vertex3 - vertex1).normalized;
 
             // Asegurar que la normal apunta hacia el centro del modelo
-            Vector3 directionCenterToFace = centro - faceCenter;
+            Vector3 directionCenterToFace = center - faceCenter;
             if (myDotProduct(normal, directionCenterToFace) < 0)
             {
                 normal = -normal;

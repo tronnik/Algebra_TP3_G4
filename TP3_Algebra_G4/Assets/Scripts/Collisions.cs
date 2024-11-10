@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[ExecuteAlways]
 public class Collisions : MonoBehaviour
 {
     public List<GameObject> objects;
