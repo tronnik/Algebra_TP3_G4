@@ -31,7 +31,7 @@ public class CubicalGrid : MonoBehaviour
     float space;
     int currentSphere;
 
-    Vector3[] grid;
+    public Vector3[] grid;
 
     private void Awake()
     {
@@ -102,43 +102,7 @@ public class CubicalGrid : MonoBehaviour
             rowsStart += rows;
         }
 
-        radius = 0.1f;
-
-        //start.x += space;
-        //for (int j = 0; j < downLines; j++)
-        //{
-        //    if (j % rectExtension == 0)
-        //    {
-        //        start.y += space;
-        //        start.z = 0;
-        //    }
-
-        //    start.z += space;
-
-        //    Vector3 aux = start;
-
-
-        //    grid[j] = aux;
-
-        //}
-
-
-        //start = Vector3.zero;
-
-        //for (int j = downLines; j < max; j++)
-        //{
-        //    if (j % rectExtension == 0)
-        //    {
-        //        start.z += space;
-        //        start.x = 0;
-        //    }
-
-        //    start.x += space * 4;
-
-        //    Vector3 aux = start;
-
-        //    grid[j] = aux;
-        //}
+        radius = 0.03f;
     }
 
     public void BuildCube()
